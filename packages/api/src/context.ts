@@ -2,6 +2,7 @@
 import * as trpc from "@trpc/server";
 import * as trpcNext from "@trpc/server/adapters/next";
 import { prisma } from "@acme/db";
+import { firebaseAdmin, getToken } from "../../../apps/nextjs/src/lib/firebase/firebaseAdmin";
 
 /**
  * Replace this with an object if you want to pass things to createContextInner
@@ -23,7 +24,18 @@ export const createContextInner = async (opts: CreateContextOptions) => {
  * @link https://trpc.io/docs/context
  **/
 export const createContext = async (opts: trpcNext.CreateNextContextOptions) => {
-  return await createContextInner({});
+  const req = opts?.req;
+  const res = opts?.res;
+
+  const session =
+  req && res && (await getToken(opts));
+  console.log(session)
+  return {
+    req,
+    res,
+    session,
+    prisma,
+  };
 };
 
 export type Context = trpc.inferAsyncReturnType<typeof createContext>;

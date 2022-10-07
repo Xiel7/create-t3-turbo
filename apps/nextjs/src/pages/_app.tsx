@@ -2,9 +2,14 @@
 import "../styles/globals.css";
 import type { AppType } from "next/app";
 import { trpc } from "../utils/trpc";
+import { AuthProvider } from '../components/auth/AuthProvider';
 
 const MyApp: AppType = ({ Component, pageProps }) => {
-  return <Component {...pageProps} />;
+  return (
+    <AuthProvider>
+      <Component {...pageProps} />
+    </AuthProvider>
+  );
 };
 
 export default trpc.withTRPC(MyApp);
