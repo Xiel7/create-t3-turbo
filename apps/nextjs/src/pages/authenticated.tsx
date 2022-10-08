@@ -40,9 +40,9 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     }
 }
 
-function AuthenticatedPage(
+const AuthenticatedPage = (
     props: InferGetServerSidePropsType<typeof getServerSideProps>
-) {
+) => {
     const router = useRouter()
     return (
         <div>

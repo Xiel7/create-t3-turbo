@@ -1,6 +1,6 @@
 import { createTRPCReact } from '@trpc/react'
 import type { AppRouter } from '@acme/api'
-import env from '@env'
+import { API_URL } from '@env'
 /**
  * A set of typesafe hooks for consuming your API.
  */
@@ -18,8 +18,7 @@ const getBaseUrl = () => {
      * you don't have anything else running on it, or you'd have to change it.
      */
 
-    if (env.API_URL) return `https://${env.API_URL}` // if api url exists
-
+    if (API_URL) return `https://${API_URL}` // if api url exists
     const localhost = Constants.manifest?.debuggerHost?.split(':')[0]
     if (!localhost)
         throw new Error('failed to get localhost, configure it manually')
