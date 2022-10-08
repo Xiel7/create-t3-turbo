@@ -47,32 +47,32 @@
 
 // export default Home;
 
-import Link from 'next/link';
-import { useAuth } from '../components/auth/AuthProvider';
-import { NextPage } from 'next';
-import { trpc } from '../utils/trpc';
+import Link from 'next/link'
+import { useAuth } from '../components/auth/AuthProvider'
+import { NextPage } from 'next'
+import { trpc } from '../utils/trpc'
 
 const Home: NextPage = () => {
-  const { user } = useAuth();
-  const {data : exampleData} = trpc.example.test.useQuery();
-  console.log("Example", exampleData);
+    const { user } = useAuth()
+    const { data: exampleData } = trpc.example.test.useQuery()
+    console.log('Example', exampleData)
 
-  return (
-    <div style={{ padding: '40px' }}>
-      <p>{`User ID: ${user ? user.uid : 'no user signed in'}`}</p>
+    return (
+        <div style={{ padding: '40px' }}>
+            <p>{`User ID: ${user ? user.uid : 'no user signed in'}`}</p>
 
-      <p>
-        <Link href="/authenticated">
-          <a>Go to authenticated route</a>
-        </Link>
-      </p>
-      <p>
-        <Link href="/login">
-          <a>Login</a>
-        </Link>
-      </p>
-    </div>
-  );
-};
+            <p>
+                <Link href="/authenticated">
+                    <a>Go to authenticated route</a>
+                </Link>
+            </p>
+            <p>
+                <Link href="/login">
+                    <a>Login</a>
+                </Link>
+            </p>
+        </div>
+    )
+}
 
-export default Home;
+export default Home
