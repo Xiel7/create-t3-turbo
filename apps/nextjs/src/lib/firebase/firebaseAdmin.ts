@@ -1,5 +1,5 @@
 // do not use this in client only in server
-import nookies from 'nookies'
+// import nookies from 'nookies'
 import firebaseAdmin from 'firebase-admin'
 import { env } from '../../env/server.mjs'
 
@@ -25,15 +25,15 @@ if (!firebaseAdmin.apps.length) {
     })
 }
 
-const getToken = async (ctx: any) => {
-    const cookies = nookies.get(ctx)
-    if (cookies.token) {
-        const user = await firebaseAdmin.auth().verifyIdToken(cookies.token)
-        return { user }
-    }
+// const getToken = async (ctx: any) => {
+//     const cookies = nookies.get(ctx)
+//     if (cookies.token) {
+//         const user = await firebaseAdmin.auth().verifyIdToken(cookies.token)
+//         return { user }
+//     }
 
-    return null
-}
+//     return null
+// }
 
 const verifyToken = async (token: string | null | undefined) => {
     if (token) {
@@ -48,4 +48,4 @@ const verifyToken = async (token: string | null | undefined) => {
     return null
 }
 
-export { firebaseAdmin, getToken, verifyToken }
+export { firebaseAdmin, verifyToken }

@@ -4,7 +4,6 @@ import * as trpcNext from '@trpc/server/adapters/next'
 import { prisma } from '@acme/db'
 import {
     firebaseAdmin,
-    getToken,
     verifyToken,
 } from '../../../apps/nextjs/src/lib/firebase/firebaseAdmin'
 import { extractToken } from '../../../apps/nextjs/src/utils/helpers'

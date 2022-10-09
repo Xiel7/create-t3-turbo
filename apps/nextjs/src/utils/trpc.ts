@@ -20,6 +20,7 @@ export const trpc = createTRPCNext<AppRouter>({
                 httpBatchLink({
                     url: `${getBaseUrl()}/api/trpc`,
                     async headers() {
+                        // get the token from firebase client and attach it to authorization header
                         return {
                             Authorization:
                                 'Bearer ' +

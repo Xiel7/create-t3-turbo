@@ -50,6 +50,7 @@ export const TRPCProvider: React.FC<{ children: React.ReactNode }> = ({
                 httpBatchLink({
                     url: `${getBaseUrl()}/api/trpc`,
                     async headers() {
+                        // get the token from firebase client and attach it to authorization header
                         return {
                             Authorization:
                                 'Bearer ' +
