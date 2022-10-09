@@ -8,7 +8,7 @@ import {
 import { FlashList } from '@shopify/flash-list'
 import type { inferProcedureOutput } from '@trpc/server'
 import type { AppRouter } from '@acme/api'
-import { trpc } from '../utils/trpc'
+import { trpc } from '../../utils/trpc'
 import React from 'react'
 
 const PostCard: React.FC<{
@@ -62,7 +62,7 @@ const CreatePost: React.FC = () => {
     )
 }
 
-export const HomeScreen = () => {
+const HomeScreen = () => {
     const postQuery = trpc.post.all.useQuery()
     const [showPost, setShowPost] = React.useState<string | null>(null)
 
@@ -106,3 +106,5 @@ export const HomeScreen = () => {
         </SafeAreaView>
     )
 }
+
+export default HomeScreen

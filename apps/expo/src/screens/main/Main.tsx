@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { View, Text, TextInput, Button } from 'react-native'
-import { useAuth } from '../components/auth/AuthProvider'
-import { firebaseClient } from '../lib/firebase/firebaseClient'
+import { useAuth } from '../../components/auth/AuthProvider'
+import { firebaseClient } from '../../lib/firebase/firebaseClient'
 
-const Main = () => {
+const MainScreen = () => {
     const { user } = useAuth()
     return (
         <View className="flex h-full justify-center items-center">
@@ -24,4 +24,4 @@ const Main = () => {
     )
 }
 
-export default Main
+export default MainScreen

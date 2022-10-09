@@ -6,7 +6,6 @@ import { TRPCProvider } from './utils/trpc'
 
 import { AuthProvider } from './components/auth/AuthProvider'
 import RootNavigation from './navigation/RootNavigation'
-import { HomeScreen } from './screens/home'
 
 const App = () => {
     return (
@@ -14,7 +13,7 @@ const App = () => {
             <TRPCProvider>
                 <SafeAreaProvider>
                     <StatusBar />
-                    <HomeScreen />
+                    <RootNavigation />
                 </SafeAreaProvider>
             </TRPCProvider>
         </AuthProvider>

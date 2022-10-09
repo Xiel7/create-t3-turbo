@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button } from 'react-native'
 import { useAuth } from '../../components/auth/AuthProvider'
 import { firebaseClient } from '../../lib/firebase/firebaseClient'
 
-const Login = () => {
+const LoginScreen = () => {
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
     const { user } = useAuth()
@@ -46,4 +46,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default LoginScreen
