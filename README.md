@@ -1,6 +1,9 @@
-# create-t3-turbo
+# create-t3-turbo-firebase
 
 ![Create T3 Turbo](https://user-images.githubusercontent.com/51714798/193696098-5ea53aa5-826f-411d-b694-b27f6a1d2421.png)
+
+## Intro
+Forked from t3-oss/create-t3-turbo and integrated it with Firebase Auth cause Next Auth doesn't support cross-platform
 
 ## About
 
