@@ -5,7 +5,9 @@ import { prisma } from '@acme/db'
 import {
     firebaseAdmin,
     getToken,
+    verifyToken,
 } from '../../../apps/nextjs/src/lib/firebase/firebaseAdmin'
+import { extractToken } from '../../../apps/nextjs/src/utils/helpers'
 
 /**
  * Replace this with an object if you want to pass things to createContextInner
@@ -32,8 +34,11 @@ export const createContext = async (
     const req = opts?.req
     const res = opts?.res
 
-    const session = req && res && (await getToken(opts))
-    console.log(session)
+    const token = extractToken(req)
+    console.log('Token', token)
+    const session = req && res && (await verifyToken(token))
+    console.log('Session', session)
+
     return {
         req,
         res,

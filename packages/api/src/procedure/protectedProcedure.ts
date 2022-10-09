@@ -5,7 +5,7 @@ import { t } from '../trpc'
  * Creates a tRPC router that asserts all queries and mutations are from an authorized user. Will throw an unauthorized error if a user is not signed in.
  */
 const isProtected = t.middleware(async ({ ctx, next }) => {
-    if (!ctx.session || !ctx.session.user) {
+    if (!ctx.session) {
         throw new trpc.TRPCError({ code: 'UNAUTHORIZED' })
     }
 

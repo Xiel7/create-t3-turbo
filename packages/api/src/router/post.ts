@@ -1,8 +1,9 @@
 import { t } from '../trpc'
 import { z } from 'zod'
+import { protectedProcedure } from '../procedure/protectedProcedure'
 
 export const postRouter = t.router({
-    all: t.procedure.query(({ ctx }) => {
+    all: protectedProcedure.query(({ ctx }) => {
         return ctx.prisma.post.findMany()
     }),
     byId: t.procedure.input(z.string()).query(({ ctx, input }) => {

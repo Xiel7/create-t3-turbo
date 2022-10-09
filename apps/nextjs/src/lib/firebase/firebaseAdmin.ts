@@ -27,8 +27,25 @@ if (!firebaseAdmin.apps.length) {
 
 const getToken = async (ctx: any) => {
     const cookies = nookies.get(ctx)
-    const user = await firebaseAdmin.auth().verifyIdToken(cookies.token!)
-    return { user }
+    if (cookies.token) {
+        const user = await firebaseAdmin.auth().verifyIdToken(cookies.token)
+        return { user }
+    }
+
+    return null
 }
 
-export { firebaseAdmin, getToken }
+const verifyToken = async (token: string | null | undefined) => {
+    if (token) {
+        try {
+            const user = await firebaseAdmin.auth().verifyIdToken(token)
+            return { user }
+        } catch (error) {
+            console.log(error)
+            return null
+        }
+    }
+    return null
+}
+
+export { firebaseAdmin, getToken, verifyToken }

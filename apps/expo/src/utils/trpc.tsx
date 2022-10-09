@@ -18,7 +18,7 @@ const getBaseUrl = () => {
      * you don't have anything else running on it, or you'd have to change it.
      */
 
-    if (API_URL) return `https://${API_URL}` // if api url exists
+    // if (API_URL) return `https://${API_URL}` // if api url exists
     const localhost = Constants.manifest?.debuggerHost?.split(':')[0]
     if (!localhost)
         throw new Error('failed to get localhost, configure it manually')
@@ -33,17 +33,31 @@ import React from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { httpBatchLink } from '@trpc/client'
 import { transformer } from '@acme/api/transformer'
+import { useAuth } from '../components/auth/AuthProvider'
+import { firebaseClient } from '../lib/firebase/firebaseClient'
+
+export let token: string
 
 export const TRPCProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
     const [queryClient] = React.useState(() => new QueryClient())
+
     const [trpcClient] = React.useState(() =>
         trpc.createClient({
             transformer,
             links: [
                 httpBatchLink({
                     url: `${getBaseUrl()}/api/trpc`,
+                    async headers() {
+                        return {
+                            Authorization:
+                                'Bearer ' +
+                                (await firebaseClient
+                                    .auth()
+                                    .currentUser?.getIdToken()),
+                        }
+                    },
                 }),
             ],
         })
