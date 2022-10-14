@@ -4,8 +4,8 @@ import React from 'react'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import { TRPCProvider } from './utils/trpc'
 
-import { AuthProvider } from './components/auth/AuthProvider'
-import RootNavigation from './navigation/RootNavigation'
+import { AuthProvider } from './provider/AuthProvider'
+import RootNavigator from './navigation/RootNavigator'
 
 const App = () => {
     return (
@@ -13,7 +13,7 @@ const App = () => {
             <TRPCProvider>
                 <SafeAreaProvider>
                     <StatusBar />
-                    <RootNavigation />
+                    <RootNavigator />
                 </SafeAreaProvider>
             </TRPCProvider>
         </AuthProvider>

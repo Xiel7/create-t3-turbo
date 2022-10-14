@@ -48,7 +48,7 @@
 // export default Home;
 
 import Link from 'next/link'
-import { useAuth } from '../components/auth/AuthProvider'
+import { useAuth } from '../provider/AuthProvider'
 import { NextPage } from 'next'
 import { trpc } from '../utils/trpc'
 

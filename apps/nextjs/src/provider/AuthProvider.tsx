@@ -1,7 +1,7 @@
 import firebase from 'firebase/compat/app'
 import nookies from 'nookies'
 import { createContext, useState, useEffect, useContext } from 'react'
-import { firebaseClient } from '../../lib/firebase/firebaseClient'
+import { firebaseClient } from '../lib/firebase/firebaseClient'
 
 const AuthContext = createContext<{ user: firebase.User | null }>({
     user: null,

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View, Text, TextInput, Button } from 'react-native'
-import { useAuth } from '../../components/auth/AuthProvider'
+import { useAuth } from '../../provider/AuthProvider'
 import { firebaseClient } from '../../lib/firebase/firebaseClient'
 
 const LogoutScreen = () => {

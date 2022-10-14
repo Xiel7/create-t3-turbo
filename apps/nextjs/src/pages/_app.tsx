@@ -2,7 +2,7 @@
 import '../styles/globals.css'
 import type { AppType } from 'next/app'
 import { trpc } from '../utils/trpc'
-import { AuthProvider } from '../components/auth/AuthProvider'
+import { AuthProvider } from '../provider/AuthProvider'
 
 const MyApp: AppType = ({ Component, pageProps }) => {
     return (

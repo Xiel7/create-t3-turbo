@@ -33,7 +33,7 @@ import React from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { httpBatchLink } from '@trpc/client'
 import { transformer } from '@acme/api/transformer'
-import { useAuth } from '../components/auth/AuthProvider'
+import { useAuth } from '../provider/AuthProvider'
 import { firebaseClient } from '../lib/firebase/firebaseClient'
 
 export let token: string

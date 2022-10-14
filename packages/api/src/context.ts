@@ -34,9 +34,9 @@ export const createContext = async (
     const res = opts?.res
 
     const token = extractToken(req)
-    console.log('Token', token)
+    // console.log('Token', token)
     const session = req && res && (await verifyToken(token))
-    console.log('Session', session)
+    // console.log('Session', session)
 
     return {
         req,
