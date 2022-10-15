@@ -7,10 +7,7 @@ import {
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import MainScreen from '../../screens/main/Main'
 import HomeScreen from '../../screens/main/Home'
-
-export const defaultScreenOption: StackNavigationOptions = {
-    headerShown: false,
-}
+import { defaultScreenOption } from '../option'
 
 type MainStackParamList = {
     Main: undefined

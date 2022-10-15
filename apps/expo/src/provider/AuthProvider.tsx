@@ -2,12 +2,17 @@ import firebase from 'firebase/compat/app'
 import { createContext, useState, useEffect, useContext } from 'react'
 import { firebaseClient } from '../lib/firebase/firebaseClient'
 
-const AuthContext = createContext<{ user: firebase.User | null }>({
+const AuthContext = createContext<{
+    user: firebase.User | null
+    isFetching: boolean
+}>({
     user: null,
+    isFetching: true,
 })
 
 export function AuthProvider({ children }: any) {
     const [user, setUser] = useState<firebase.User | null>(null)
+    const [isFetching, setIsFetching] = useState(true)
 
     // listen for token changes
     // call setUser and write new token as a cookie
@@ -18,6 +23,7 @@ export function AuthProvider({ children }: any) {
             } else {
                 setUser(user)
             }
+            setIsFetching(false)
         })
     }, [])
 
@@ -33,7 +39,9 @@ export function AuthProvider({ children }: any) {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={{ user, isFetching }}>
+            {children}
+        </AuthContext.Provider>
     )
 }
 

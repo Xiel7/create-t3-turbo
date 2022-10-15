@@ -1,13 +1,23 @@
 import firebase from 'firebase/compat/app'
 import nookies from 'nookies'
-import { createContext, useState, useEffect, useContext } from 'react'
+import {
+    createContext,
+    useState,
+    useEffect,
+    useContext,
+    ReactNode,
+} from 'react'
 import { firebaseClient } from '../lib/firebase/firebaseClient'
 
 const AuthContext = createContext<{ user: firebase.User | null }>({
     user: null,
 })
 
-export function AuthProvider({ children }: any) {
+type Props = {
+    children: ReactNode
+}
+
+export function AuthProvider({ children }: Props) {
     const [user, setUser] = useState<firebase.User | null>(null)
 
     // listen for token changes
