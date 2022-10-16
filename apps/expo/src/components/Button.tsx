@@ -1,7 +1,9 @@
 import React, { useCallback, ReactNode } from 'react'
 import { Pressable, Text, StyleSheet } from 'react-native'
 
-type Props = {
+type RNPressableProps = React.ComponentProps<typeof Pressable>
+
+interface Props extends RNPressableProps {
     children?: ReactNode
     onPress?: () => void
     title?: string
@@ -16,7 +18,7 @@ export const Button = ({
     activeOpacity = 0.3,
     borderless = false,
     title,
-    className,
+    ...otherProps
 }: Props) => {
     const _style = useCallback(
         ({ pressed }: any) => [{ opacity: pressed ? activeOpacity : 1 }],
@@ -32,9 +34,8 @@ export const Button = ({
             </Pressable>
         )
     }
-
     return (
-        <Pressable onPress={onPress} style={_style} className={`${className}`}>
+        <Pressable onPress={onPress} style={_style} {...otherProps}>
             {children}
         </Pressable>
     )

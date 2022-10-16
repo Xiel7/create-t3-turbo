@@ -1,9 +1,10 @@
 import { useState } from 'react'
+import { IoniconsIconsName } from '../components/Icon'
 
 export const useTogglePasswordVisibility = () => {
     // password will not be initially visible
     const [passwordVisibility, setPasswordVisibility] = useState(true)
-    const [rightIcon, setRightIcon] = useState('eye')
+    const [rightIcon, setRightIcon] = useState<IoniconsIconsName>('eye')
     const [confirmPasswordIcon, setConfirmPasswordIcon] = useState('eye')
     const [confirmPasswordVisibility, setConfirmPasswordVisibility] =
         useState(true)

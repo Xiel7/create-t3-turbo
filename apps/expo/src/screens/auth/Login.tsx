@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, TextInput } from 'react-native'
+import { View, Text, TextInput as RNTextInput } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useAuth } from '../../provider/AuthProvider'
 import { firebaseClient } from '../../lib/firebase/firebaseClient'
@@ -8,6 +8,11 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '../../components/Button'
+import { TextInput } from '../../components/TextInput'
+import { useTogglePasswordVisibility } from '../../hooks'
+import FormErrorMessage from '../../components/FormErrorMessage'
+import { Logo } from '../../components/Logo'
+import { Images } from '../../config/images'
 
 const loginInputSchema = z.object({
     email: z.string().email(),
@@ -17,24 +22,22 @@ const loginInputSchema = z.object({
 type LoginInput = z.infer<typeof loginInputSchema>
 
 const LoginScreen = () => {
+    const [errorState, setErrorState] = useState('')
+    const { passwordVisibility, handlePasswordVisibility, rightIcon } =
+        useTogglePasswordVisibility()
     const {
         handleSubmit,
         control,
         reset,
-        formState: { errors, isSubmitted, isValid },
+        formState: { errors, touchedFields },
     } = useForm<LoginInput>({
         resolver: zodResolver(loginInputSchema),
     })
-    console.log(errors)
-    const onSubmit = (data: LoginInput) => console.log(data)
-    const handleLogin = async (data: LoginInput) => {
-        try {
-            await firebaseClient
-                .auth()
-                .signInWithEmailAndPassword(data.email, data.password)
-        } catch (error) {
-            console.log(error)
-        }
+    const handleLogin = (data: LoginInput) => {
+        firebaseClient
+            .auth()
+            .signInWithEmailAndPassword(data.email, data.password)
+            .catch((error) => setErrorState(error.message))
     }
 
     return (
@@ -43,6 +46,12 @@ const LoginScreen = () => {
                 <KeyboardAwareScrollView enableOnAndroid={true}>
                     <View className="flex px-4 gap-4 w-full">
                         <View className="w-full">
+                            <View className="justify-center items-center m-10">
+                                <Logo uri={Images.logo} />
+                                <Text className="text-2xl font-semibold pt-10 leading-normal">
+                                    Welcome back!
+                                </Text>
+                            </View>
                             <Controller
                                 control={control}
                                 render={({
@@ -55,16 +64,15 @@ const LoginScreen = () => {
                                         }
                                         value={value}
                                         placeholder={'Email'}
-                                        className={
-                                            'p-4 border-2 rounded-lg border-gray-400 '
-                                        }
+                                        leftIconName="mail"
                                     />
                                 )}
                                 name="email"
                             />
-                        </View>
-                        <View>
-                            <Text>{errors.email?.message}</Text>
+                            <FormErrorMessage
+                                errorText={errors.email?.message}
+                                visible={touchedFields.email}
+                            />
                         </View>
                         <View className="w-full">
                             <Controller
@@ -78,23 +86,39 @@ const LoginScreen = () => {
                                             onChange(value)
                                         }
                                         value={value}
+                                        autoCapitalize="none"
+                                        autoCorrect={false}
+                                        secureTextEntry={passwordVisibility}
+                                        textContentType="password"
+                                        rightIcon={rightIcon!}
+                                        handleToggle={handlePasswordVisibility}
                                         placeholder={'Password'}
-                                        className={
-                                            'p-4 border-2 rounded-lg border-gray-400 '
-                                        }
+                                        leftIconName="ios-key-outline"
                                     />
                                 )}
                                 name="password"
                             />
+                            <FormErrorMessage
+                                errorText={errors.password?.message}
+                                visible={touchedFields.password}
+                            />
+                            {/* Display Screen Error Mesages */}
+                            {errorState !== '' ? (
+                                <FormErrorMessage
+                                    errorText={errorState}
+                                    visible={true}
+                                />
+                            ) : null}
                         </View>
-                        <View>
-                            <Text>{errors.password?.message}</Text>
+
+                        {/* Login button */}
+                        <View className="w-full p-4">
+                            <Button
+                                borderless
+                                onPress={handleSubmit(handleLogin)}
+                                title="Log In"
+                            />
                         </View>
-                        <Button
-                            borderless
-                            onPress={handleSubmit(handleLogin)}
-                            title="Log In"
-                        />
                     </View>
                 </KeyboardAwareScrollView>
             </View>

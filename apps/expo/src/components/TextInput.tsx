@@ -4,25 +4,34 @@ import { TextInput as RNTextInput, View } from 'react-native'
 import { Icon, IoniconsIconsName } from './Icon'
 import { Button } from './Button'
 
-type Props = {
-    leftIconName: IoniconsIconsName
-    rightIcon: IoniconsIconsName
-    handlePasswordVisibility: () => void
+type RNTextInputProps = React.ComponentProps<typeof RNTextInput>
+
+interface Props extends RNTextInputProps {
+    leftIconName?: IoniconsIconsName
+    rightIcon?: IoniconsIconsName
+    handleToggle?: () => void
 }
 
 export const TextInput = ({
     leftIconName,
     rightIcon,
-    handlePasswordVisibility,
+    handleToggle,
     ...otherProps
 }: Props) => {
     return (
-        <View>
-            {leftIconName ? <Icon name={leftIconName} size={22} /> : null}
-            <RNTextInput {...otherProps} />
+        <View className="flex flex-row w-full border-gray-400 rounded-lg border-2 bg-white">
+            {leftIconName ? (
+                <View className="py-4 px-4">
+                    <Icon name={leftIconName} size={22} color="gray" />
+                </View>
+            ) : null}
+            <RNTextInput className="flex-1 w-full ml-4 py-4" {...otherProps} />
             {rightIcon ? (
-                <Button onPress={handlePasswordVisibility}>
-                    <Icon name={rightIcon} size={22} />
+                <Button
+                    onPress={handleToggle}
+                    className="relative bg-gray-400 h-full py-4 px-4"
+                >
+                    <Icon name={rightIcon} size={22} color="gray" />
                 </Button>
             ) : null}
         </View>
