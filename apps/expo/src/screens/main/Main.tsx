@@ -6,12 +6,13 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useAuth } from '../../provider/AuthProvider'
 import { firebaseClient } from '../../lib/firebase/firebaseClient'
 import { Props } from '../../navigation/stacks/MainStack'
+import { ScreenView } from '../../components/ScreenView'
 
 const MainScreen = ({ navigation }: Props) => {
     const { user } = useAuth()
     return (
-        <SafeAreaView className="bg-blue-400">
-            <View className="flex-1 h-full justify-center items-center bg-blue-400">
+        <ScreenView className="bg-blue-200">
+            <View className="flex-1 h-full justify-center items-center ">
                 <Button
                     onPress={() => navigation.navigate('Home')}
                     borderless
@@ -32,9 +33,9 @@ const MainScreen = ({ navigation }: Props) => {
                 />
             </View>
             <View className="flex-1 w-full justify-center items-center">
-                <Text>Made by zakotopro</Text>
+                <Text>Made by Eric Ng</Text>
             </View>
-        </SafeAreaView>
+        </ScreenView>
     )
 }
 

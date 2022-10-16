@@ -10,6 +10,7 @@ import type { inferProcedureOutput } from '@trpc/server'
 import type { AppRouter } from '@acme/api'
 import { trpc } from '../../utils/trpc'
 import React from 'react'
+import { ScreenView } from '../../components/ScreenView'
 
 const PostCard: React.FC<{
     post: inferProcedureOutput<AppRouter['post']['all']>[number]
@@ -67,43 +68,37 @@ const HomeScreen = () => {
     const [showPost, setShowPost] = React.useState<string | null>(null)
 
     return (
-        <SafeAreaView>
-            <View className="h-full w-full p-4">
-                <Text className="text-5xl font-bold mx-auto pb-2 pt-5">
-                    Create <Text className="text-indigo-500">T3</Text> Turbo
-                </Text>
+        <ScreenView>
+            <Text className="text-5xl font-bold mx-auto pb-2 pt-5">
+                Create <Text className="text-indigo-500">T3</Text> Turbo
+            </Text>
 
-                <View className="py-2">
-                    {showPost ? (
-                        <Text>
-                            <Text className="font-semibold">
-                                Selected post:
-                            </Text>
-                            {showPost}
-                        </Text>
-                    ) : (
-                        <Text className="italic font-semibold">
-                            Press on a post
-                        </Text>
-                    )}
-                </View>
-
-                <FlashList
-                    data={postQuery.data}
-                    estimatedItemSize={20}
-                    ItemSeparatorComponent={() => <View className="h-2" />}
-                    renderItem={(p) => (
-                        <TouchableOpacity
-                            onPress={() => setShowPost(p.item.id)}
-                        >
-                            <PostCard post={p.item} />
-                        </TouchableOpacity>
-                    )}
-                />
-
-                <CreatePost />
+            <View className="py-2">
+                {showPost ? (
+                    <Text>
+                        <Text className="font-semibold">Selected post:</Text>
+                        {showPost}
+                    </Text>
+                ) : (
+                    <Text className="italic font-semibold">
+                        Press on a post
+                    </Text>
+                )}
             </View>
-        </SafeAreaView>
+
+            <FlashList
+                data={postQuery.data}
+                estimatedItemSize={20}
+                ItemSeparatorComponent={() => <View className="h-2" />}
+                renderItem={(p) => (
+                    <TouchableOpacity onPress={() => setShowPost(p.item.id)}>
+                        <PostCard post={p.item} />
+                    </TouchableOpacity>
+                )}
+            />
+
+            <CreatePost />
+        </ScreenView>
     )
 }
 

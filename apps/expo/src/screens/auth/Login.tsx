@@ -13,6 +13,7 @@ import { useTogglePasswordVisibility } from '../../hooks'
 import FormErrorMessage from '../../components/FormErrorMessage'
 import { Logo } from '../../components/Logo'
 import { Images } from '../../config/images'
+import { ScreenView } from '../../components/ScreenView'
 
 const loginInputSchema = z.object({
     email: z.string().email(),
@@ -25,6 +26,7 @@ const LoginScreen = () => {
     const [errorState, setErrorState] = useState('')
     const { passwordVisibility, handlePasswordVisibility, rightIcon } =
         useTogglePasswordVisibility()
+
     const {
         handleSubmit,
         control,
@@ -33,96 +35,93 @@ const LoginScreen = () => {
     } = useForm<LoginInput>({
         resolver: zodResolver(loginInputSchema),
     })
+
     const handleLogin = (data: LoginInput) => {
         firebaseClient
             .auth()
             .signInWithEmailAndPassword(data.email, data.password)
-            .catch((error) => setErrorState(error.message))
+            .catch((error) =>
+                setErrorState('Invalid Credentials. Please Try Again')
+            )
     }
 
     return (
-        <SafeAreaView>
-            <View className="h-full">
-                <KeyboardAwareScrollView enableOnAndroid={true}>
-                    <View className="flex px-4 gap-4 w-full">
-                        <View className="w-full">
-                            <View className="justify-center items-center m-10">
-                                <Logo uri={Images.logo} />
-                                <Text className="text-2xl font-semibold pt-10 leading-normal">
-                                    Welcome back!
-                                </Text>
-                            </View>
-                            <Controller
-                                control={control}
-                                render={({
-                                    field: { onChange, onBlur, value },
-                                }) => (
-                                    <TextInput
-                                        onBlur={onBlur}
-                                        onChangeText={(value) =>
-                                            onChange(value)
-                                        }
-                                        value={value}
-                                        placeholder={'Email'}
-                                        leftIconName="mail"
-                                    />
-                                )}
-                                name="email"
+        <ScreenView className="bg-blue-200">
+            <KeyboardAwareScrollView className="gap-4" enableOnAndroid={true}>
+                {/* Header */}
+                <View className="justify-center items-center py-10">
+                    <Logo uri={Images.logo} />
+                    <Text className="text-2xl font-semibold pt-10 leading-normal">
+                        Welcome back!
+                    </Text>
+                </View>
+                <View className="">
+                    <Controller
+                        control={control}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                onBlur={onBlur}
+                                onChangeText={(value) => onChange(value)}
+                                value={value}
+                                placeholder={'Email'}
+                                leftIconName="mail"
                             />
-                            <FormErrorMessage
-                                errorText={errors.email?.message}
-                                visible={touchedFields.email}
+                        )}
+                        name="email"
+                    />
+                    <FormErrorMessage
+                        errorText={errors.email?.message}
+                        visible={touchedFields.email}
+                    />
+                </View>
+                <View className="">
+                    <Controller
+                        control={control}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                onBlur={onBlur}
+                                onChangeText={(value) => onChange(value)}
+                                value={value}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                secureTextEntry={passwordVisibility}
+                                textContentType="password"
+                                rightIcon={rightIcon!}
+                                handleToggle={handlePasswordVisibility}
+                                placeholder={'Password'}
+                                leftIconName="ios-key-outline"
                             />
-                        </View>
-                        <View className="w-full">
-                            <Controller
-                                control={control}
-                                render={({
-                                    field: { onChange, onBlur, value },
-                                }) => (
-                                    <TextInput
-                                        onBlur={onBlur}
-                                        onChangeText={(value) =>
-                                            onChange(value)
-                                        }
-                                        value={value}
-                                        autoCapitalize="none"
-                                        autoCorrect={false}
-                                        secureTextEntry={passwordVisibility}
-                                        textContentType="password"
-                                        rightIcon={rightIcon!}
-                                        handleToggle={handlePasswordVisibility}
-                                        placeholder={'Password'}
-                                        leftIconName="ios-key-outline"
-                                    />
-                                )}
-                                name="password"
-                            />
-                            <FormErrorMessage
-                                errorText={errors.password?.message}
-                                visible={touchedFields.password}
-                            />
-                            {/* Display Screen Error Mesages */}
-                            {errorState !== '' ? (
-                                <FormErrorMessage
-                                    errorText={errorState}
-                                    visible={true}
-                                />
-                            ) : null}
-                        </View>
+                        )}
+                        name="password"
+                    />
+                    <FormErrorMessage
+                        errorText={errors.password?.message}
+                        visible={touchedFields.password}
+                    />
+                </View>
 
-                        {/* Login button */}
-                        <View className="w-full p-4">
-                            <Button
-                                borderless
-                                onPress={handleSubmit(handleLogin)}
-                                title="Log In"
-                            />
-                        </View>
-                    </View>
-                </KeyboardAwareScrollView>
+                {/* Display Screen Error Mesages */}
+                <View className="">
+                    {errorState !== '' ? (
+                        <FormErrorMessage
+                            errorText={errorState}
+                            visible={true}
+                        />
+                    ) : null}
+                </View>
+                {/* Login button */}
+                <View className="">
+                    <Button
+                        borderless
+                        onPress={handleSubmit(handleLogin)}
+                        title="Log In"
+                    />
+                </View>
+            </KeyboardAwareScrollView>
+            <View className="flex-none w-full justify-center items-center">
+                <Text>Made by Eric Ng</Text>
             </View>
-        </SafeAreaView>
+        </ScreenView>
     )
 }
 
