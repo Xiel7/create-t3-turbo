@@ -60,6 +60,10 @@ const LoginScreen = () => {
                         control={control}
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
+                                autoCapitalize="none"
+                                keyboardType="email-address"
+                                textContentType="emailAddress"
+                                autoFocus={true}
                                 onBlur={onBlur}
                                 onChangeText={(value) => onChange(value)}
                                 value={value}
