@@ -11,7 +11,7 @@ const FormErrorMessage = ({ errorText, visible }: Props) => {
         return null
     }
 
-    return <Text className="pt-2 text-red-600">{errorText}</Text>
+    return <Text className="mx-4 mt-2 text-red-600">{errorText}</Text>
 }
 
 export default FormErrorMessage

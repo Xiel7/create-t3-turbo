@@ -1,5 +1,6 @@
 import firebase from 'firebase/compat/app'
 import { createContext, useState, useEffect, useContext } from 'react'
+import { Text, View } from 'react-native'
 import { firebaseClient } from '../lib/firebase/firebaseClient'
 
 const AuthContext = createContext<{

@@ -19,9 +19,9 @@ export const TextInput = ({
     ...otherProps
 }: Props) => {
     return (
-        <View className="flex flex-row w-full border-gray-400 rounded-lg border-2 bg-white">
+        <View className="flex flex-row w-full border-gray-300 rounded-lg border-2 bg-white">
             {leftIconName ? (
-                <View className="py-4 px-4">
+                <View className="py-4 pl-4">
                     <Icon name={leftIconName} size={22} color="gray" />
                 </View>
             ) : null}
@@ -29,7 +29,7 @@ export const TextInput = ({
             {rightIcon ? (
                 <Button
                     onPress={handleToggle}
-                    className="relative bg-gray-400 h-full py-4 px-4"
+                    className="relative bg-gray-300 h-full py-4 px-4"
                 >
                     <Icon name={rightIcon} size={22} color="gray" />
                 </Button>
