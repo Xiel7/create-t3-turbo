@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, TextInput as RNTextInput } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { useAuth } from '../../provider/AuthProvider'
+import { View, Text } from 'react-native'
 import { firebaseClient } from '../../lib/firebase/firebaseClient'
 import { Controller, useForm } from 'react-hook-form'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -17,8 +15,49 @@ import { ScreenView } from '../../components/ScreenView'
 import { loginInputSchema } from '../../utils/schema'
 import { useLoading } from '../../provider/LoadingProvider'
 import { LoginScreenProps } from '../../navigation/types'
+import * as Google from 'expo-auth-session/providers/google'
+import {
+    getAuth,
+    GoogleAuthProvider,
+    signInWithCredential,
+} from 'firebase/auth/react-native'
+import { Icon } from '../../components/Icon'
 
 type LoginInput = z.infer<typeof loginInputSchema>
+
+const GoogleAuthButton = () => {
+    const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
+        clientId:
+            '47730022905-ml87tu7qepi7n3j5prkvi9ucqm4ouoa9.apps.googleusercontent.com',
+        clientSecret: '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',
+    })
+
+    React.useEffect(() => {
+        console.log(response)
+        if (response?.type === 'success') {
+            const { id_token } = response.params
+            const auth = getAuth()
+            const credential = GoogleAuthProvider.credential(id_token)
+            signInWithCredential(auth, credential)
+        }
+    }, [response])
+
+    return (
+        <Button
+            disabled={!request}
+            onPress={() => {
+                promptAsync()
+            }}
+        >
+            <View className="flex flex-row py-2 bg-red-600 rounded-lg justify-center items-center">
+                <Icon name="logo-google" size={22} color={'white'} />
+                <Text className="ml-2 text-center font-bold text-lg text-white">
+                    Sign In With Google
+                </Text>
+            </View>
+        </Button>
+    )
+}
 
 const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     const [errorState, setErrorState] = useState('')
@@ -51,7 +90,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         <ScreenView className="bg-blue-50">
             <KeyboardAwareScrollView className="gap-4" enableOnAndroid={true}>
                 {/* Header */}
-                <View className="justify-center items-center py-10">
+                <View className="justify-center items-center py-6">
                     <Logo uri={Images.logo} />
                     <Text className="text-3xl text-blue-900 font-extrabold pt-10 leading-normal">
                         Welcome back!
@@ -107,23 +146,21 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                 </View>
 
                 {/* Display Screen Error Mesages */}
-                <View className="">
-                    {errorState !== '' ? (
-                        <FormErrorMessage
-                            errorText={errorState}
-                            visible={true}
-                        />
-                    ) : null}
-                </View>
+                {errorState !== '' ? (
+                    <FormErrorMessage errorText={errorState} visible={true} />
+                ) : null}
                 {/* Login button */}
                 <View className="">
                     <Button onPress={handleSubmit(handleLogin)}>
                         <View className="py-2 bg-blue-600 rounded-lg">
                             <Text className="text-center font-bold text-lg text-white">
-                                Log In
+                                Sign In
                             </Text>
                         </View>
                     </Button>
+                </View>
+                <View>
+                    <GoogleAuthButton />
                 </View>
                 {/* Forgot Password */}
                 <View className="">
@@ -141,6 +178,13 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                         title="Don't have an account? Sign Up Now!"
                     />
                 </View>
+                {/* <View className="">
+                    <Button
+                        borderless
+                        onPress={() => navigation.navigate('GoogleAuth')}
+                        title="Test"
+                    />
+                </View> */}
             </KeyboardAwareScrollView>
             <View className="flex-none justify-center items-center">
                 <Text className="font-extralight">Made by Eric Ng</Text>

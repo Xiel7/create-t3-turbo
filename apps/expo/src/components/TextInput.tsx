@@ -21,15 +21,15 @@ export const TextInput = ({
     return (
         <View className="flex flex-row w-full border-gray-300 rounded-lg border-2 bg-white">
             {leftIconName ? (
-                <View className="py-4 pl-4">
+                <View className="py-2 pl-4">
                     <Icon name={leftIconName} size={22} color="gray" />
                 </View>
             ) : null}
-            <RNTextInput className="flex-1 w-full ml-4 py-4" {...otherProps} />
+            <RNTextInput className="flex-1 w-full ml-4 py-2" {...otherProps} />
             {rightIcon ? (
                 <Button
                     onPress={handleToggle}
-                    className="relative bg-gray-300 h-full py-4 px-4"
+                    className="relative bg-gray-300 h-full py-2 px-4"
                 >
                     <Icon name={rightIcon} size={22} color="gray" />
                 </Button>

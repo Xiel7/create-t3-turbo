@@ -8,6 +8,7 @@ import { defaultScreenOption } from '../option'
 import ForgotPasswordScreen from '../../screens/auth/ForgotPassword'
 import { AuthStackParam } from '../types'
 import SignUpScreen from '../../screens/auth/SignUpScreen'
+import GoogleAuthScreen from '../../screens/auth/GoogleAuth'
 
 const Stack = createStackNavigator<AuthStackParam>()
 
@@ -21,6 +22,7 @@ export default function AuthStack() {
                     component={ForgotPasswordScreen}
                 />
                 <Stack.Screen name="SignUp" component={SignUpScreen} />
+                <Stack.Screen name="GoogleAuth" component={GoogleAuthScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )
