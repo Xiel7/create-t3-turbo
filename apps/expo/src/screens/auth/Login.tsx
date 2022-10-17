@@ -22,14 +22,16 @@ import {
     signInWithCredential,
 } from 'firebase/auth/react-native'
 import { Icon } from '../../components/Icon'
+import { trpc } from '../../utils/trpc'
 
 type LoginInput = z.infer<typeof loginInputSchema>
 
 const GoogleAuthButton = () => {
+    const { mutate: googleAuthSignIn, error: signUpUserError } =
+        trpc.user.googleAuthSignIn.useMutation()
     const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
         clientId:
             '47730022905-ml87tu7qepi7n3j5prkvi9ucqm4ouoa9.apps.googleusercontent.com',
-        clientSecret: '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',
     })
 
     React.useEffect(() => {
@@ -38,7 +40,14 @@ const GoogleAuthButton = () => {
             const { id_token } = response.params
             const auth = getAuth()
             const credential = GoogleAuthProvider.credential(id_token)
-            signInWithCredential(auth, credential)
+            signInWithCredential(auth, credential).then((value) => {
+                googleAuthSignIn({
+                    email: value.user.email,
+                    firebaseId: value.user.uid,
+                    image: value.user.photoURL,
+                    name: value.user.displayName,
+                })
+            })
         }
     }, [response])
 

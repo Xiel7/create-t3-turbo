@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { protectedProcedure } from '../procedure/protectedProcedure'
 import { TRPCError } from '@trpc/server'
 import { prisma } from '@acme/db'
+import { verifyToken } from '../../../../apps/nextjs/src/lib/firebase/firebaseAdmin'
 
 export const userRouter = t.router({
     signUp: t.procedure
@@ -39,6 +40,39 @@ export const userRouter = t.router({
                     message: error?.message
                         ? error?.message
                         : 'Error signing up user. Please try again later.',
+                })
+            }
+        }),
+    googleAuthSignIn: t.procedure
+        .input(
+            z.object({
+                email: z.string().email().nullish(),
+                firebaseId: z.string(),
+                name: z.string().nullish(),
+                image: z.string().nullish(),
+            })
+        )
+        .mutation(async ({ ctx, input }) => {
+            try {
+                console.log(input)
+
+                const user = await ctx.prisma.user.create({
+                    data: {
+                        email: input.email,
+                        firebaseId: input.firebaseId,
+                        name: input.name,
+                        image: input.image,
+                    },
+                })
+                // return user
+                return user
+            } catch (error: any) {
+                console.log('Error', error)
+                throw new TRPCError({
+                    code: 'CONFLICT',
+                    message: error?.message
+                        ? error?.message
+                        : 'Error creating user. Please try again later.',
                 })
             }
         }),
