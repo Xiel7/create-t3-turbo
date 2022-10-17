@@ -16,10 +16,11 @@ import { Images } from '../../config/images'
 import { ScreenView } from '../../components/ScreenView'
 import { loginInputSchema } from '../../utils/schema'
 import { useLoading } from '../../provider/LoadingProvider'
+import { LoginScreenProps } from '../../navigation/types'
 
 type LoginInput = z.infer<typeof loginInputSchema>
 
-const LoginScreen = () => {
+const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     const [errorState, setErrorState] = useState('')
     const { passwordVisibility, handlePasswordVisibility, rightIcon } =
         useTogglePasswordVisibility()
@@ -33,11 +34,12 @@ const LoginScreen = () => {
         resolver: zodResolver(loginInputSchema),
     })
 
-    const handleLogin = (data: LoginInput) => {
+    const handleLogin = (values: LoginInput) => {
+        const { email, password } = values
         setLoading(true)
         firebaseClient
             .auth()
-            .signInWithEmailAndPassword(data.email, data.password)
+            .signInWithEmailAndPassword(email, password)
             .then(() => setLoading(false))
             .catch((error) => {
                 setErrorState('Invalid Credentials. Please Try Again')
@@ -46,7 +48,7 @@ const LoginScreen = () => {
     }
 
     return (
-        <ScreenView className="bg-blue-200">
+        <ScreenView className="bg-blue-50">
             <KeyboardAwareScrollView className="gap-4" enableOnAndroid={true}>
                 {/* Header */}
                 <View className="justify-center items-center py-10">
@@ -127,7 +129,7 @@ const LoginScreen = () => {
                 <View className="">
                     <Button
                         borderless
-                        onPress={handleSubmit(handleLogin)}
+                        onPress={() => navigation.navigate('ForgotPassword')}
                         title="Forgot Password"
                     />
                 </View>

@@ -9,14 +9,14 @@ import MainScreen from '../../screens/main/Main'
 import HomeScreen from '../../screens/main/Home'
 import { defaultScreenOption } from '../option'
 
-type MainStackParamList = {
+type MainStackParam = {
     Main: undefined
     Home: undefined
 }
 
-export type Props = NativeStackScreenProps<MainStackParamList, 'Main'>
+export type MainScreenProps = NativeStackScreenProps<MainStackParam, 'Main'>
 
-const Stack = createStackNavigator<MainStackParamList>()
+const Stack = createStackNavigator<MainStackParam>()
 
 export default function MainStack() {
     return (

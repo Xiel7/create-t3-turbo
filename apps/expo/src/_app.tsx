@@ -7,17 +7,20 @@ import { TRPCProvider } from './utils/trpc'
 import { AuthProvider } from './provider/AuthProvider'
 import RootNavigator from './navigation/RootNavigator'
 import { LoadingProvider } from './provider/LoadingProvider'
+import { NativeBaseProvider } from 'native-base'
 
 const App = () => {
     return (
         <AuthProvider>
             <TRPCProvider>
-                <LoadingProvider>
-                    <SafeAreaProvider>
-                        <StatusBar />
-                        <RootNavigator />
-                    </SafeAreaProvider>
-                </LoadingProvider>
+                <NativeBaseProvider>
+                    <LoadingProvider>
+                        <SafeAreaProvider>
+                            <StatusBar />
+                            <RootNavigator />
+                        </SafeAreaProvider>
+                    </LoadingProvider>
+                </NativeBaseProvider>
             </TRPCProvider>
         </AuthProvider>
     )
