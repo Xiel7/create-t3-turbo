@@ -7,6 +7,7 @@ import LoginScreen from '../../screens/auth/Login'
 import { defaultScreenOption } from '../option'
 import ForgotPasswordScreen from '../../screens/auth/ForgotPassword'
 import { AuthStackParam } from '../types'
+import SignUpScreen from '../../screens/auth/SignUpScreen'
 
 const Stack = createStackNavigator<AuthStackParam>()
 
@@ -19,6 +20,7 @@ export default function AuthStack() {
                     name="ForgotPassword"
                     component={ForgotPasswordScreen}
                 />
+                <Stack.Screen name="SignUp" component={SignUpScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )

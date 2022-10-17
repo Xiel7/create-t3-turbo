@@ -14,47 +14,48 @@ import FormErrorMessage from '../../components/FormErrorMessage'
 import { Logo } from '../../components/Logo'
 import { Images } from '../../config/images'
 import { ScreenView } from '../../components/ScreenView'
-import { loginInputSchema } from '../../utils/schema'
+import { signUpSchema } from '../../utils/schema'
 import { useLoading } from '../../provider/LoadingProvider'
-import { LoginScreenProps } from '../../navigation/types'
+import { SignUpScreenProps } from '../../navigation/types'
+import { useToast } from 'native-base'
 
-type LoginInput = z.infer<typeof loginInputSchema>
+type SignUpInput = z.infer<typeof signUpSchema>
 
-const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
+const SignUpScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
     const [errorState, setErrorState] = useState('')
     const { passwordVisibility, handlePasswordVisibility, rightIcon } =
         useTogglePasswordVisibility()
     const { loading, setLoading } = useLoading()
+    const toast = useToast()
 
     const {
         handleSubmit,
         control,
         formState: { errors, touchedFields },
-    } = useForm<LoginInput>({
-        resolver: zodResolver(loginInputSchema),
+    } = useForm<SignUpInput>({
+        resolver: zodResolver(signUpSchema),
     })
 
-    const handleLogin = (values: LoginInput) => {
+    const handleSignup = (values: SignUpInput) => {
         const { email, password } = values
-        setLoading(true)
+
         firebaseClient
             .auth()
-            .signInWithEmailAndPassword(email, password)
-            .then(() => setLoading(false))
-            .catch((error) => {
-                setErrorState('Invalid Credentials. Please Try Again')
-                setLoading(false)
+            .createUserWithEmailAndPassword(email, password)
+            .then(() => {
+                toast.show({ description: 'Sign Up Successful!' })
+                
             })
+            .catch((error) => setErrorState(error.message))
     }
 
     return (
         <ScreenView className="bg-blue-50">
             <KeyboardAwareScrollView className="gap-4" enableOnAndroid={true}>
                 {/* Header */}
-                <View className="justify-center items-center py-10">
-                    <Logo uri={Images.logo} />
-                    <Text className="text-3xl text-blue-900 font-extrabold pt-10 leading-normal">
-                        Welcome back!
+                <View>
+                    <Text className="text-3xl text-blue-900 font-extrabold leading-normal">
+                        Sign Up
                     </Text>
                 </View>
                 <View className="">
@@ -117,10 +118,10 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                 </View>
                 {/* Login button */}
                 <View className="">
-                    <Button onPress={handleSubmit(handleLogin)}>
+                    <Button onPress={handleSubmit(handleSignup)}>
                         <View className="py-2 bg-blue-600 rounded-lg">
                             <Text className="text-center font-bold text-lg text-white">
-                                Log In
+                                Sign Up
                             </Text>
                         </View>
                     </Button>
@@ -130,15 +131,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                     <Button
                         borderless
                         onPress={() => navigation.navigate('ForgotPassword')}
-                        title="Forgot Password"
-                    />
-                </View>
-                {/* Sign Up*/}
-                <View className="">
-                    <Button
-                        borderless
-                        onPress={() => navigation.navigate('SignUp')}
-                        title="Don't have an account? Sign Up!"
+                        title="Already have an account?"
                     />
                 </View>
             </KeyboardAwareScrollView>
@@ -149,4 +142,4 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     )
 }
 
-export default LoginScreen
+export default SignUpScreen
