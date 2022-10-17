@@ -18,6 +18,7 @@ import { signUpSchema } from '../../utils/schema'
 import { useLoading } from '../../provider/LoadingProvider'
 import { SignUpScreenProps } from '../../navigation/types'
 import { useToast } from 'native-base'
+import { trpc } from '../../utils/trpc'
 
 type SignUpInput = z.infer<typeof signUpSchema>
 
@@ -27,6 +28,8 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
         useTogglePasswordVisibility()
     const { loading, setLoading } = useLoading()
     const toast = useToast()
+    const { mutateAsync: signUpUser, error: signUpUserError } =
+        trpc.user.signUp.useMutation()
 
     const {
         handleSubmit,
@@ -36,17 +39,19 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
         resolver: zodResolver(signUpSchema),
     })
 
-    const handleSignup = (values: SignUpInput) => {
+    const handleSignup = async (values: SignUpInput) => {
         const { email, password } = values
-
-        firebaseClient
-            .auth()
-            .createUserWithEmailAndPassword(email, password)
-            .then(() => {
-                toast.show({ description: 'Sign Up Successful!' })
-                
+        try {
+            await signUpUser({ email, password })
+            toast.show({
+                description: 'Success: Sign Up Successful.',
             })
-            .catch((error) => setErrorState(error.message))
+            navigation.navigate('Login')
+        } catch (error) {
+            setErrorState(
+                signUpUserError?.message ? signUpUserError?.message : ''
+            )
+        }
     }
 
     return (
@@ -130,7 +135,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
                 <View className="">
                     <Button
                         borderless
-                        onPress={() => navigation.navigate('ForgotPassword')}
+                        onPress={() => navigation.navigate('Login')}
                         title="Already have an account?"
                     />
                 </View>

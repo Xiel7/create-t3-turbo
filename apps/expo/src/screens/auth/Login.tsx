@@ -138,7 +138,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
                     <Button
                         borderless
                         onPress={() => navigation.navigate('SignUp')}
-                        title="Don't have an account? Sign Up!"
+                        title="Don't have an account? Sign Up Now!"
                     />
                 </View>
             </KeyboardAwareScrollView>

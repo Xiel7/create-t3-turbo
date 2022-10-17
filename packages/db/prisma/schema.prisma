@@ -15,3 +15,22 @@ model Post {
     title   String
     content String
 }
+
+enum UserStatus {
+    active
+    inactive
+    trash
+}
+
+model User {
+    id            String     @id @default(cuid())
+    firebaseId    String?
+    name          String?
+    username      String?    @unique
+    email         String?    @unique
+    emailVerified DateTime?
+    image         String?
+    status        UserStatus @default(active)
+    createdAt     DateTime   @default(now()) //UTC+0
+    updatedAt     DateTime   @default(now()) @updatedAt //UTC+0
+}

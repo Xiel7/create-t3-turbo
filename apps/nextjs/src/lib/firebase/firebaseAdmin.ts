@@ -1,5 +1,4 @@
 // do not use this in client only in server
-// import nookies from 'nookies'
 import firebaseAdmin from 'firebase-admin'
 import { env } from '../../env/server.mjs'
 
@@ -41,7 +40,7 @@ const verifyToken = async (token: string | null | undefined) => {
             const user = await firebaseAdmin.auth().verifyIdToken(token)
             return { user }
         } catch (error) {
-            console.log(error)
+            console.log('VerifyTokenError (Can Ignore)', error)
             return null
         }
     }

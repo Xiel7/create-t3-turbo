@@ -43,6 +43,7 @@ export const createContext = async (
         res,
         session,
         prisma,
+        firebaseAdmin,
     }
 }
 
