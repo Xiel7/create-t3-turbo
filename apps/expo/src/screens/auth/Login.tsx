@@ -27,11 +27,13 @@ import { trpc } from '../../utils/trpc'
 type LoginInput = z.infer<typeof loginInputSchema>
 
 const GoogleAuthButton = () => {
-    const { mutate: googleAuthSignIn, error: signUpUserError } =
-        trpc.user.googleAuthSignIn.useMutation()
+    const { mutate: googleAuthCreateUser, error: signUpUserError } =
+        trpc.user.googleAuthCreateUser.useMutation()
     const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
         clientId:
             '47730022905-ml87tu7qepi7n3j5prkvi9ucqm4ouoa9.apps.googleusercontent.com',
+        androidClientId:
+            '47730022905-uvr7hfkp7muu82ngggfgu0aitcshk35i.apps.googleusercontent.com',
     })
 
     React.useEffect(() => {
@@ -41,7 +43,7 @@ const GoogleAuthButton = () => {
             const auth = getAuth()
             const credential = GoogleAuthProvider.credential(id_token)
             signInWithCredential(auth, credential).then((value) => {
-                googleAuthSignIn({
+                googleAuthCreateUser({
                     email: value.user.email,
                     firebaseId: value.user.uid,
                     image: value.user.photoURL,

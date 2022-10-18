@@ -40,7 +40,7 @@ const verifyToken = async (token: string | null | undefined) => {
             const user = await firebaseAdmin.auth().verifyIdToken(token)
             return { user }
         } catch (error) {
-            console.log('VerifyTokenError (Can Ignore)', error)
+            // console.log('VerifyTokenError (Can Ignore)', error)
             return null
         }
     }

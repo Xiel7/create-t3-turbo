@@ -18,7 +18,7 @@ const getBaseUrl = () => {
      * you don't have anything else running on it, or you'd have to change it.
      */
 
-    // if (API_URL) return `https://${API_URL}` // if api url exists
+    if (API_URL) return `https://${API_URL}` // if api url exists
     const localhost = Constants.manifest?.debuggerHost?.split(':')[0]
     if (!localhost)
         throw new Error('failed to get localhost, configure it manually')

@@ -43,7 +43,7 @@ export const userRouter = t.router({
                 })
             }
         }),
-    googleAuthSignIn: t.procedure
+    googleAuthCreateUser: t.procedure
         .input(
             z.object({
                 email: z.string().email().nullish(),
