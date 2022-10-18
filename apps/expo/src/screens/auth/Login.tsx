@@ -63,7 +63,7 @@ const GoogleAuthButton = () => {
             <View className="flex flex-row py-2 bg-red-600 rounded-lg justify-center items-center">
                 <Icon name="logo-google" size={22} color={'white'} />
                 <Text className="ml-2 text-center font-bold text-lg text-white">
-                    Sign In With Google
+                    Continue With Google
                 </Text>
             </View>
         </Button>

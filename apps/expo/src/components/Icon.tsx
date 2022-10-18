@@ -2,21 +2,14 @@ import React from 'react'
 import { Ionicons } from '@expo/vector-icons'
 
 export type IoniconsIconsName = React.ComponentProps<typeof Ionicons>['name']
+type IoniconsProps = React.ComponentProps<typeof Ionicons>
 
-type IconProps = {
+interface IconProps extends IoniconsProps {
     name: IoniconsIconsName
     size?: number
     color?: string
-    className?: string
 }
 
-export const Icon = (props: IconProps) => {
-    return (
-        <Ionicons
-            name={props.name}
-            size={props.size}
-            color={props.color}
-            className={props.className}
-        />
-    )
+export const Icon = ({ name, size, color, ...otherProps }: IconProps) => {
+    return <Ionicons name={name} size={size} color={color} {...otherProps} />
 }
